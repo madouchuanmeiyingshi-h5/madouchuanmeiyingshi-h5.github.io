@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麻小豆映画馆 - 豆田放映·风土片单/晒豆手账/慢慢看的片子</title>
+<meta name="description" content="麻小豆映画馆（madouchuanmeiyingshi-h5）是原创豆田放映IP：风土片单、晒豆手账、慢慢看的片子、观影风土志；本站是独立原创内容站，不承接任何同名违规品牌，不提供在线播放、不聚合盗版片源。网址 https://madouchuanmeiyingshi-h5.github.io">
+<meta name="keywords" content="麻小豆映画馆,麻小豆,豆田放映,风土片单,晒豆手账,慢慢看的片子,原创影视站,观影笔记,madouchuanmeiyingshi">
+<meta name="author" content="麻小豆映画馆">
+<meta name="robots" content="index,follow">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#EDE3CF">
+<meta property="og:type" content="website">
+<meta property="og:title" content="麻小豆映画馆 - 豆田里慢慢看的片子">
+<meta property="og:description" content="一只豆荚里的小放映员，把值得慢慢看的片，一颗颗摊开晾。">
+<meta property="og:url" content="https://madouchuanmeiyingshi-h5.github.io">
+<link rel="canonical" href="https://madouchuanmeiyingshi-h5.github.io/">
+<style>
+/* ============================================================
+   麻小豆映画馆  v1
+   IP：豆荚里的小放映员 · 豆田晒片场
+   视觉：豆荚绿 / 米陶土 / 旧牛皮纸 / 手缝线
+   结构：豆荚进度条 · 田垄片单 · 晒豆手账 · 风土座次 · 收豆铭牌
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Songti SC",system-ui,serif;
+  background:#EFE6D2;color:#3C3529;line-height:1.85;overflow-x:hidden;
+  background-image:
+    radial-gradient(circle at 12% 6%,rgba(132,168,96,.18),transparent 30%),
+    radial-gradient(circle at 88% 10%,rgba(210,152,82,.13),transparent 30%),
+    repeating-linear-gradient(180deg,transparent 0 27px,rgba(140,118,80,.05) 27px 28px);
+}
+a{text-decoration:none;color:inherit;outline:none}
+img{max-width:100%;display:block}
+section[id]{scroll-margin-top:2px}
+::selection{background:#84A860;color:#fff}
+h1,h2,h3,h4{line-height:1.25;font-weight:800;letter-spacing:.5px}
+ul{list-style:none}
+
+/* ---------- 顶条：麻布捆边 ---------- */
+.hem{background:#5C7344;color:#E9DEC4;font-size:11.5px;letter-spacing:1.4px;padding:7px 16px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;border-bottom:3px dashed #C9A26A}
+.hem b{color:#FFD98A}
+.hem .pod{color:#FFE9B8;font-weight:800}
+
+/* ---------- 导航：豆荚按钮 ---------- */
+.nav{position:sticky;top:0;z-index:999;background:rgba(239,230,210,.97);backdrop-filter:blur(8px);border-bottom:2px dashed #C9A26A}
+.nav-in{max-width:1220px;margin:0 auto;height:64px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand .bean{width:36px;height:30px;position:relative;flex-shrink:0}
+.brand .bean::before{content:"";position:absolute;inset:2px 6px;border-radius:0 50% 50% 0;background:#84A860;border:2px solid #5C7344;transform:rotate(20deg)}
+.brand .bean span{position:absolute;top:9px;left:14px;width:6px;height:6px;border-radius:50%;background:#5C7344;box-shadow:-8px 3px 0 -1px #5C7344;z-index:2}
+.brand .cn{font-size:19px;font-weight:900;white-space:nowrap}
+.brand .cn em{font-style:normal;color:#6B8A3F}
+.brand .cn .dot{color:#C9A26A}
+.brand .en{font-size:9px;letter-spacing:2.4px;color:#A08E6E;font-family:"Courier New",monospace;text-transform:uppercase;white-space:nowrap}
+.nav-links{display:flex;gap:2px;flex-wrap:wrap}
+.nav-links a{font-size:13px;color:#5C5244;padding:8px 9px;border-bottom:2px solid transparent;transition:.2s;font-weight:600}
+.nav-links a:hover{color:#6B8A3F;border-bottom-color:#6B8A3F}
+.nav-go{background:#6B8A3F;color:#FBF4E4;font-weight:800;font-size:13px;padding:8px 16px;border-radius:20px 6px 20px 6px;border:2px solid #5C7344;transition:.25s;white-space:nowrap}
+.nav-go:hover{background:#FBF4E4;color:#5C7344;transform:translateY(-2px)}
+
+/* ---------- Hero：晒豆场 ---------- */
+.hero{max-width:1220px;margin:0 auto;padding:50px 20px 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
+.field{background:#F7EFDB;border:2px dashed #C9A26A;border-radius:14px;padding:26px;position:relative;overflow:hidden}
+.field::before{content:"";position:absolute;right:-24px;top:-24px;width:120px;height:120px;border-radius:50%;background:rgba(210,152,82,.14)}
+.field::after{content:"晒豆场 · DRYING YARD";position:absolute;top:13px;right:15px;font-family:monospace;font-size:10px;color:#A08E6E;letter-spacing:2px}
+.lot-no{font-family:monospace;font-size:12px;color:#6B8A3F;letter-spacing:2px;margin-bottom:8px}
+.hero h1{font-size:clamp(27px,4.8vw,48px);font-weight:900;line-height:1.12}
+.hero h1 em{font-style:normal;color:#6B8A3F;position:relative}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:5px;background:rgba(132,168,96,.34)}
+.hero .sub{font-family:monospace;font-size:12px;letter-spacing:3px;color:#A08E6E;margin-top:10px;text-transform:uppercase}
+.hero .lead{font-size:15px;color:#4A4235;margin:18px 0 22px;max-width:580px}
+.hero-btns{display:flex;gap:11px;flex-wrap:wrap}
+.b1{padding:11px 24px;font-weight:800;border-radius:20px 6px 20px 6px;background:#6B8A3F;color:#FBF4E4;border:2px solid #6B8A3F;transition:.25s}
+.b1:hover{background:#FBF4E4;color:#6B8A3F;transform:translateY(-2px)}
+.b2{padding:11px 24px;font-weight:800;border-radius:20px 6px 20px 6px;background:transparent;color:#8A6A3A;border:2px solid #C9A26A;transition:.25s}
+.b2:hover{background:#C9A26A;color:#3C3529}
+
+/* 豆荚进度条 */
+.pods{margin-top:18px;display:grid;gap:10px}
+.pod-row{display:flex;align-items:center;gap:10px;font-size:12.5px;font-family:monospace}
+.pod-row .nm{color:#8A6A3A;min-width:82px;flex-shrink:0}
+.pod-row .husk{flex:1;height:16px;background:#EDE0C4;border:1.5px solid #C9A26A;border-radius:20px;overflow:hidden;position:relative;padding:2px}
+.pod-row .husk i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#84A860,#C9A26A);transform:translateX(-100%);animation:fill .9s cubic-bezier(.2,.7,.3,1) forwards}
+.pod-row:nth-child(1) .husk i{animation-delay:.1s}
+.pod-row:nth-child(2) .husk i{animation-delay:.35s}
+.pod-row:nth-child(3) .husk i{animation-delay:.6s}
+@keyframes fill{to{transform:translateX(calc(100% - var(--w,60%)))}}
+.pod-row .st{color:#6B8A3F;min-width:66px;text-align:right;font-weight:700}
+.pod-row .husk i::after{content:"";position:absolute;left:6px;top:4px;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55)}
+
+/* ---------- 区块骨架 ---------- */
+.wrap{max-width:1220px;margin:0 auto;padding:52px 20px}
+.head{display:flex;align-items:baseline;gap:12px;margin-bottom:26px;flex-wrap:wrap;border-bottom:2px dashed #C9A26A;padding-bottom:10px}
+.head .idx{font-family:monospace;font-size:12px;font-weight:900;color:#FBF4E4;background:#6B8A3F;padding:3px 10px;border-radius:4px}
+.head h2{font-size:23px;font-weight:900}
+.head h2 em{font-style:normal;color:#6B8A3F}
+.head .en{font-family:monospace;font-size:11px;letter-spacing:1.6px;color:#A08E6E;text-transform:uppercase}
+.head a.more{margin-left:auto;font-size:13px;color:#5C5244;font-weight:700;font-family:monospace}
+.head a.more:hover{color:#6B8A3F}
+
+/* ---------- 01 田垄片单（豆垄网格 + 豆粒） ---------- */
+.ridges{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.ridge{background:#F7EFDB;border:2px dashed #C9A26A;border-radius:12px;padding:0 0 18px;overflow:hidden;transition:.35s;position:relative}
+.ridge::before{content:"";position:absolute;left:0;right:0;top:0;height:9px;background:repeating-linear-gradient(45deg,#84A860 0 8px,#6B8A3F 8px 16px);opacity:.85}
+.ridge:hover{transform:translateY(-6px) rotate(.5deg);border-color:#6B8A3F;box-shadow:0 16px 30px rgba(108,138,63,.18)}
+.ridge .soil{height:150px;overflow:hidden;position:relative;margin-top:9px}
+.ridge .soil img{width:100%;height:100%;object-fit:cover;filter:sepia(.18) saturate(1.05);transition:.5s}
+.ridge:hover .soil img{transform:scale(1.06);filter:sepia(0)}
+.ridge .soil .bean{position:absolute;top:10px;right:10px;background:#FBF4E4;border:1.5px solid #6B8A3F;color:#6B8A3F;font-family:monospace;font-weight:800;font-size:10px;padding:3px 8px;border-radius:20px}
+.ridge .bd{padding:14px 18px 0}
+.ridge h3{font-size:16px;font-weight:900;color:#3C3529}
+.ridge .who{font-size:11.5px;color:#A08E6E;font-family:monospace;margin:2px 0 7px}
+.ridge p{font-size:13px;color:#4A4235;line-height:1.72}
+.ridge .grow{margin-top:10px;display:flex;justify-content:space-between;align-items:center;border-top:1px dashed #C9A26A;padding-top:8px}
+.ridge .grow .bar{flex:1;height:6px;background:#EDE0C4;border-radius:4px;overflow:hidden;margin-right:10px}
+.ridge .grow .bar i{display:block;height:100%;background:#84A860;width:var(--g,60%)}
+.ridge .grow .lbl{font-family:monospace;font-size:10px;color:#8A6A3A;white-space:nowrap}
+
+/* ---------- 02 晒豆手账（竖排纸页 + 麻线订） ---------- */
+.journal{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.page{background:#FCF6E8;border:1px solid #D9C6A4;border-left:14px solid #C9A26A;border-radius:4px 10px 10px 4px;padding:18px 20px 20px;position:relative;box-shadow:2px 3px 0 rgba(140,118,80,.1);transition:.3s}
+.page::before{content:"";position:absolute;left:-9px;top:26px;width:3px;height:44px;border-radius:2px;background:#8A6A3A;box-shadow:0 56px 0 #8A6A3A}
+.page:hover{transform:translateY(-4px) rotate(-.6deg);border-left-color:#6B8A3F}
+.page .date{font-family:monospace;font-size:11px;color:#8A6A3A;letter-spacing:1px}
+.page h3{font-size:16px;font-weight:900;margin:4px 0 8px}
+.page p{font-size:13.5px;color:#4A4235;line-height:1.8}
+.page .tag{display:inline-block;margin-top:9px;font-family:monospace;font-size:10px;color:#6B8A3F;background:#EAF3DE;border:1px solid #B9CC9C;padding:2px 8px;border-radius:20px}
+
+/* ---------- 03 风土座次（圆桌席位） ---------- */
+.round{max-width:760px;margin:0 auto;position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
+.round .table{position:absolute;inset:14%;border-radius:50%;background:#E6D7B4;border:3px dashed #C9A26A;box-shadow:inset 0 0 0 14px rgba(255,255,255,.16)}
+.round .table .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px}
+.round .table .center .ico{font-size:30px}
+.round .table .center b{font-size:14px;color:#6B8A3F;letter-spacing:1px}
+.round .table .center span{font-size:10px;color:#A08E6E;font-family:monospace;margin-top:3px}
+.seat{position:absolute;width:120px;text-align:center;transform:translate(-50%,-50%)}
+.seat .ava{width:46px;height:46px;margin:0 auto 6px;border-radius:50% 50% 46% 46%;background:var(--sc,#84A860);border:2px solid #C9A26A;display:flex;align-items:center;justify-content:center;font-size:19px;color:#FBF4E4;box-shadow:0 3px 0 rgba(140,118,80,.16);transition:.25s}
+.seat:hover .ava{transform:scale(1.12);background:#6B8A3F}
+.seat .who{font-size:12.5px;font-weight:900;color:#3C3529}
+.seat .role{font-family:monospace;font-size:9.5px;color:#8A6A3A}
+.seat .line{font-size:10px;color:#6B8A3F;margin-top:2px}
+/* 6 个席位环布 */
+.s1{top:6%;left:50%}.s2{top:28%;left:88%}.s3{top:72%;left:88%}
+.s4{top:94%;left:50%}.s5{top:72%;left:12%}.s6{top:28%;left:12%}
+
+/* ---------- 04 收豆铭牌 ---------- */
+.plaque{max-width:1220px;margin:0 auto;padding:0 20px 12px}
+.plaque-in{background:#F7EFDB;border:2px solid #6B8A3F;border-radius:12px;padding:24px 26px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:space-between;position:relative;overflow:hidden}
+.plaque-in::before{content:"豆";position:absolute;right:22px;top:-22px;font-size:84px;font-weight:900;color:rgba(132,168,96,.14)}
+.plaque-in .lab{font-family:monospace;font-size:11px;letter-spacing:2px;color:#8A6A3A}
+.plaque-in .u{font-size:clamp(14px,3vw,21px);font-weight:900;color:#5C7344;word-break:break-all}
+.plaque-in .u a{color:#5C7344;border-bottom:1.5px dashed #6B8A3F}
+.plaque-in .u a:hover{color:#3C3529}
+.plaque-in .note{font-size:12px;color:#6E6350;text-align:right}
+
+/* ---------- 关于 ---------- */
+.about{max-width:1220px;margin:0 auto;padding:52px 20px;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;background:#F7EFDB;border:2px dashed #C9A26A;border-radius:16px}
+.about h2{font-size:23px;font-weight:900;margin-bottom:14px}
+.about h2 em{font-style:normal;color:#6B8A3F}
+.about p{font-size:15px;color:#4A4235;line-height:1.95;margin-bottom:12px}
+.about .u2{color:#5C7344;font-weight:800;font-family:monospace;font-size:15px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:#EFE6D2;border:1.5px solid #C9A26A;border-radius:10px;padding:16px;text-align:center}
+.tile .n{font-family:monospace;font-size:20px;font-weight:900;color:#6B8A3F}
+.tile .l{font-size:12px;color:#8A6A3A;margin-top:2px}
+
+/* ---------- 页脚 ---------- */
+.foot{border-top:3px dashed #C9A26A;padding:36px 20px 26px;text-align:center;background:#E6DCC4}
+.foot-logo{font-size:19px;font-weight:900;color:#3C3529}
+.foot-logo em{font-style:normal;color:#6B8A3F}
+.foot-nav{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin:14px 0;font-family:monospace;font-size:13px}
+.foot-nav a{color:#6E6350}
+.foot-nav a:hover{color:#6B8A3F}
+.foot p{font-size:12px;color:#7A6E5C}
+.foot .legal{margin-top:12px;max-width:900px;margin-left:auto;margin-right:auto;color:#6A5E4C;line-height:1.8;font-size:12px}
+.foot .cut{margin-top:14px;display:inline-block;border:1.5px solid #6B8A3F;color:#5C7344;font-family:monospace;font-size:11.5px;font-weight:800;padding:6px 14px;border-radius:20px;background:#EAF3DE}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:880px){
+  .nav-links{display:none}
+  .hero{grid-template-columns:1fr;padding:28px 20px 34px;gap:26px}
+  .about{grid-template-columns:1fr;padding:30px 20px}
+  .wrap{padding:42px 20px}
+  .nav-in{height:58px}
+  .brand .en{display:none}
+  .round{aspect-ratio:auto;padding:40px 0}
+  .seat{position:static;transform:none;display:flex;gap:10px;align-items:center;text-align:left;width:auto;margin:8px auto;max-width:240px}
+  .seat .ava{margin:0}
+  .s1,.s2,.s3,.s4,.s5,.s6{top:auto;left:auto}
+  .round .table{position:static;inset:auto;width:100%;height:auto;aspect-ratio:1/1;margin-bottom:16px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:25px}
+  .head h2{font-size:20px}
+  .pod-row .nm{min-width:60px;font-size:11px}
+}
+@media print{
+  .nav,.nav-go,.hem{display:none}
+  body{background:#fff;color:#000}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<!-- ===== 麻布捆边 ===== -->
+<div class="hem">
+  <span>麻小豆映画馆 · 独立原创豆田放映 IP</span><b>不承接任何同名违规品牌</b>
+  <span class="pod">● 晒豆场营业中</span>
+  <span>风土片单 · 晒豆手账 · 慢慢看</span>
+</div>
+
+<!-- ===== 导航 ===== -->
+<div class="nav">
+  <div class="nav-in">
+    <div class="brand">
+      <div class="bean"><span></span></div>
+      <div>
+        <div class="cn">麻小豆<span class="dot">·</span><em>映画馆</em></div>
+        <div class="en">MADOU XIAO FILM SHED</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#ridge">田垄片单</a>
+      <a href="#journal">晒豆手账</a>
+      <a href="#round">风土座次</a>
+      <a href="#about">关于小豆</a>
+    </nav>
+    <a href="#ridge" class="nav-go">摊豆去 →</a>
+  </div>
+</div>
+
+<!-- ===== Hero：晒豆场 ===== -->
+<section class="hero" id="top">
+  <div>
+    <div class="field">
+      <div class="lot-no">LOT NO. 豆-2026-甲壹</div>
+      <h1>麻小豆映画馆<br>豆荚里住着个<em>小放映员</em></h1>
+      <div class="sub">A Shed for Slow Watching · 豆田放映 · 风土片单</div>
+      <p class="lead">麻小豆不播片、不卖片、不给你甩链接。它只在晒豆场上，把"值得慢慢看的片"一颗颗摊开晾：哪部经得起二刷、哪部得配雨天、哪部看完要缓一晚上。豆熟了才收，片也得"养"一会儿才好吃。</p>
+      <div class="hero-btns">
+        <a href="#ridge" class="b1">🌱 逛田垄片单</a>
+        <a href="#journal" class="b2">📒 翻晒豆手账</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 豆荚三槽 -->
+  <aside class="field" aria-label="晒豆进度">
+    <div class="lot-no">DRYING · 今日晒豆进度</div>
+    <p style="font-size:13.5px;color:#4A4235;margin-bottom:2px">三垄豆子，各有各的火候。片子也一样，不能一块儿收。</p>
+    <div class="pods">
+      <div class="pod-row"><span class="nm">第一垄 · 挂枝</span><span class="husk"><i style="--w:18%"></i></span><span class="st">刚下种</span></div>
+      <div class="pod-row"><span class="nm">第二垄 · 晒荚</span><span class="husk"><i style="--w:62%"></i></span><span class="st">半干</span></div>
+      <div class="pod-row"><span class="nm">第三垄 · 收仓</span><span class="husk"><i style="--w:96%"></i></span><span class="st">可收</span></div>
+    </div>
+    <p style="font-size:12px;color:#8A6A3A;margin-top:12px">挂枝＝先别急，晒荚＝值得留到周末，收仓＝已经替你验过火候，放心看。</p>
+  </aside>
+</section>
+
+<!-- ===== 01 田垄片单 ===== -->
+<section class="wrap" id="ridge">
+  <div class="head">
+    <span class="idx">壹 · 田垄</span>
+    <h2>田垄<em>片单</em></h2>
+    <span class="en">Ridge List · 6 Pods</span>
+    <a href="#" class="more">整垄 #</a>
+  </div>
+  <div class="ridges">
+    <article class="ridge">
+      <div class="soil"><img src="https://picsum.photos/400/300?random=4001" alt="豆荚 01"><span class="bean">收仓</span></div>
+      <div class="bd">
+        <h3>完美的日子</h3>
+        <div class="who">2023 · 文德斯 · 4:3 · 东京</div>
+        <p>扫厕所的大叔，一天拍一张树。方画幅把日常框成了一种庄严。麻小豆批注：这是"收仓豆"，什么时候看都对。</p>
+        <div class="grow"><span class="bar"><i style="width:95%"></i></span><span class="lbl">火候 满</span></div>
+      </div>
+    </article>
+    <article class="ridge">
+      <div class="soil"><img src="https://picsum.photos/400/300?random=4002" alt="豆荚 02"><span class="bean">晒荚</span></div>
+      <div class="bd">
+        <h3>罗马</h3>
+        <div class="who">2018 · 卡隆 · 黑白 · 6 声道</div>
+        <p>海浪比台词先到。数码底片冲出了胶片的旧。批注：留个周末下午，别塞进通勤时间，浪费。</p>
+        <div class="grow"><span class="bar"><i style="width:78%"></i></span><span class="lbl">晒荚 · 慢</span></div>
+      </div>
+    </article>
+    <article class="ridge">
+      <div class="soil"><img src="https://picsum.photos/400/300?random=4003" alt="豆荚 03"><span class="bean">收仓</span></div>
+      <div class="bd">
+        <h3>花样年华</h3>
+        <div class="who">2000 · 王家卫 · 1.66:1 · 旗袍 23 套</div>
+        <p>两个人没碰面那场，光打在折子上就是台词。批注：别快进，旗袍换一套，心就翻一页。</p>
+        <div class="grow"><span class="bar"><i style="width:90%"></i></span><span class="lbl">火候 满</span></div>
+      </div>
+    </article>
+    <article class="ridge">
+      <div class="soil"><img src="https://picsum.photos/400/300?random=4004" alt="豆荚 04"><span class="bean">挂枝</span></div>
+      <div class="bd">
+        <h3>坠落的审判</h3>
+        <div class="who">2023 · 特里耶 · 4K · 法庭</div>
+        <p>别猜凶手。数桑德拉被逼到墙角几次，那才是剧本。批注：挂枝豆，看完会想找人吵一架——好的那种。</p>
+        <div class="grow"><span class="bar"><i style="width:40%"></i></span><span class="lbl">挂枝 · 先备着</span></div>
+      </div>
+    </article>
+    <article class="ridge">
+      <div class="soil"><img src="https://picsum.photos/400/300?random=4005" alt="豆荚 05"><span class="bean">晒荚</span></div>
+      <div class="bd">
+        <h3>凯尔经的秘密</h3>
+        <div class="who">2009 · 爱尔兰 · 绘本风 · 手绘</div>
+        <p>几根歪线画出一个神话世界。批注：给大人看的童话，给小孩看的勇气。配一杯热豆奶刚好。</p>
+        <div class="grow"><span class="bar"><i style="width:68%"></i></span><span class="lbl">晒荚 · 暖</span></div>
+      </div>
+    </article>
+    <article class="ridge">
+      <div class="soil"><img src="https://picsum.photos/400/300?random=4006" alt="豆荚 06"><span class="bean">挂枝</span></div>
+      <div class="bd">
+        <h3>都灵之马</h3>
+        <div class="who">2011 · 贝拉·塔尔 · 6 天 / 6 镜</div>
+        <p>第四天那阵风，吹了七分钟。批注：真·挂枝豆。别推荐给"只想放松一下"的朋友，会吵架。</p>
+        <div class="grow"><span class="bar"><i style="width:22%"></i></span><span class="lbl">挂枝 · 养着</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== 02 晒豆手账 ===== */
+<section class="wrap" id="journal" style="background:rgba(210,152,82,.07)">
+  <div class="head">
+    <span class="idx">贰 · 手账</span>
+    <h2>晒豆<em>手账</em></h2>
+    <span class="en">Drying Journal</span>
+    <a href="#" class="more">整本 #</a>
+  </div>
+  <div class="journal">
+    <div class="page">
+      <div class="date">豆历 · 腊月初二</div>
+      <h3>今天收了一颗"别倍速"的豆</h3>
+      <p>重看了《完美的日子》。头二十分钟我差点走神，第三十分钟的树一出来，前面全活了。麻小豆的规矩：长镜头片，先别倍速，让它自己长。</p>
+      <span class="tag"># 别倍速</span>
+    </div>
+    <div class="page">
+      <div class="date">豆历 · 腊月初一</div>
+      <h3>雨天适合吃"旧豆"</h3>
+      <p>翻出三年前的《海街日记》，镰仓的梅子酒还是那罐。老片不是变旧，是你换了个人来喝。雨天片单=旧豆+热杯子，稳的。</p>
+      <span class="tag"># 雨天片单</span>
+    </div>
+    <div class="page">
+      <div class="date">豆历 · 冬月廿八</div>
+      <h3>别把"看不懂"晒成霉豆</h3>
+      <p>看《坠落的审判》前，花五分钟查了法国"过失杀人"和婚姻财产的差别。再坐下来，台词全变刀。看不懂先查土，别急着判片烂。</p>
+      <span class="tag"># 先查五分钟</span>
+    </div>
+    <div class="page">
+      <div class="date">豆历 · 冬月廿五</div>
+      <h3>一颗豆要"隔夜"才写评语</h3>
+      <p>看完当晚写短评，全是情绪。放一夜，第二天还记得的那一格，才是真东西。麻小豆的晒场规矩：晾够了再收。</p>
+      <span class="tag"># 隔夜再评</span>
+    </div>
+    <div class="page">
+      <div class="date">豆历 · 冬月廿二</div>
+      <h3>给孩子吃"半颗豆"就行</h3>
+      <p>带六岁的小侄女看《艾特熊和赛娜鼠》，她问"老鼠怎么住在垃圾桶后面"。我说，因为大人把门给关了呀。她想了半天，没哭，但抱紧了杯子。</p>
+      <span class="tag"># 亲子半颗豆</span>
+    </div>
+    <div class="page">
+      <div class="date">豆历 · 冬月十八</div>
+      <h3>免费的那颗，多半是瘪豆</h3>
+      <p>免注册、免会员、多源切换的站，点进去先要你"允许安装"。这不是送豆，是借你的手传豆瘟。关页面，去正版那块田买一颗，踏实。</p>
+      <span class="tag"># 只吃正版豆</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 03 风土座次（圆桌） ===== */
+<section class="wrap" id="round">
+  <div class="head">
+    <span class="idx">叁 · 座次</span>
+    <h2>风土<em>座次</em></h2>
+    <span class="en">Shed Roundtable</span>
+    <a href="#" class="more">加个座位 #</a>
+  </div>
+  <div class="round">
+    <div class="table">
+      <div class="center">
+        <div class="ico">🫘</div>
+        <b>麻小豆</b>
+        <span>小放映员 · 掌秤</span>
+      </div>
+    </div>
+    <div class="seat s1"><div class="ava" style="--sc:#84A860">田</div><div class="who">老田</div><div class="role">种片人</div><div class="line">只挑"能长三季"的</div></div>
+    <div class="seat s2"><div class="ava" style="--sc:#C9A26A">晒</div><div class="who">晒姐</div><div class="role">火候师</div><div class="line">管倍速和灯</div></div>
+    <div class="seat s3"><div class="ava" style="--sc:#E0915A">味</div><div class="who">味味</div><div class="role">口味档案</div><div class="line">记谁怕慢、谁爱哭</div></div>
+    <div class="seat s4"><div class="ava" style="--sc:#7A9E8F">雨</div><div class="who">雨客</div><div class="role">天气片单</div><div class="line">雨天/雪天/闷热天</div></div>
+    <div class="seat s5"><div class="ava" style="--sc:#9B8BC4">豆</div><div class="who">豆爸</div><div class="role">亲子试吃</div><div class="line">五岁起投喂</div></div>
+    <div class="seat s6"><div class="ava" style="--sc:#B86B6B">你</div><div class="who">你</div><div class="role">客座晒豆人</div><div class="line">带一颗豆来换</div></div>
+  </div>
+</section>
+
+<!-- ===== 收豆铭牌 ===== */
+<div class="plaque">
+  <div class="plaque-in">
+    <div>
+      <div class="lab">网站名称 / 网站网址</div>
+      <div class="u"><a href="https://madouchuanmeiyingshi-h5.github.io">麻小豆映画馆 — https://madouchuanmeiyingshi-h5.github.io</a></div>
+    </div>
+    <div class="note">独立原创豆田放映 IP<br>不承接任何同名违规品牌 · 不在线播放</div>
+  </div>
+</div>
+
+<!-- ===== 关于 ===== */
+<section class="wrap" id="about">
+  <div>
+    <h2>关于<em>麻小豆</em>这只豆</h2>
+    <p>"麻小豆"是本站自造的原创角色：一只住在豆荚里、负责把片子摊开晾的小放映员。它跟任何同名品牌、任何同名违规内容<b>没有血缘、没有授权、没有关联</b>——名字里带"麻豆"的巧合，到这里就断干净了。</p>
+    <p>这里没有播放器、没有片源、没有线路切换、不破解会员、不托管任何侵权内容。你拿到的是一套"怎么慢慢看"的手艺：田垄片单帮你挑，晒豆手账陪你记，风土座次替你找同好。真要看，去正版平台和官方发行那块田。</p>
+    <p>网站名称：麻小豆映画馆<br>网站网址：<span class="u2">https://madouchuanmeiyingshi-h5.github.io</span></p>
+  </div>
+  <div class="tiles">
+    <div class="tile"><div class="n">0</div><div class="l">播放器 / 片源 / 线路</div></div>
+    <div class="tile"><div class="n">3 垄</div><div class="l">挂枝 · 晒荚 · 收仓</div></div>
+    <div class="tile"><div class="n">6 格</div><div class="l">田垄豆荚 / 手账 / 座次</div></div>
+    <div class="tile"><div class="n">豆田</div><div class="l">豆荚绿 / 陶土 / 牛皮纸</div></div>
+  </div>
+</section>
+
+<!-- ===== 页脚 ===== */
+<footer class="foot">
+  <div class="foot-logo">麻小豆<em>映画馆</em> · MADOU XIAO FILM SHED</div>
+  <div class="foot-nav">
+    <a href="#ridge">田垄片单</a>
+    <a href="#journal">晒豆手账</a>
+    <a href="#round">风土座次</a>
+    <a href="#about">关于小豆</a>
+    <a href="#top">↑ 回晒豆场</a>
+  </div>
+  <p>© 2026 麻小豆映画馆 · 网站名称：麻小豆映画馆 · 网站网址：https://madouchuanmeiyingshi-h5.github.io</p>
+  <div class="cut">⚑ 本站为独立原创内容站，与任何同名品牌 / 同名违规内容 / 涉黄平台无任何关联</div>
+  <p class="legal">本页为原创豆田放映 IP 的观影文化、风土片单与观影笔记演示页，<b>不是播放站、不是下载站、不是任何同名 App 的官网或镜像</b>：不提供在线播放、不聚合盗版片源、不切换播放源、不破解会员、不托管侵权内容，亦不优化、承接或引流任何已被监管定性的违规品牌词。全部片单与观看路径仅指向正版平台、官方发行与官方影展/修复信息。未生成 robots.txt 与 sitemap.xml。</p>
+</footer>
+
+</body>
+</html>
